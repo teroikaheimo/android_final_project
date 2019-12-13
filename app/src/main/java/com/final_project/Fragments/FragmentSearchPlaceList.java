@@ -21,14 +21,15 @@ public class FragmentSearchPlaceList extends ListFragment {
     PlaceAdapter placeAdapter;
     Context context;
     FragmentSearchPlaceListener listener;
-    private ListView itemList;
+    ListView listView;
     private ArrayList<PlaceItem> items;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_search_place_list, container, false);
-        itemList = v.findViewById(android.R.id.list);
+        listView = v.findViewById(android.R.id.list);
+
+
         return v;
     }
 
@@ -36,13 +37,6 @@ public class FragmentSearchPlaceList extends ListFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         items = new ArrayList<>();
-
-        // TODO remove dummy data
-        items.add(new PlaceItem("Paikka 1", "tprek:26429"));
-        items.add(new PlaceItem("Sellosali", "espoo:54"));
-        items.add(new PlaceItem("Paikka 2", "tprek:26429"));
-
-
 
         context = getActivity();
         placeAdapter = new PlaceAdapter(getActivity(), items);
@@ -57,7 +51,8 @@ public class FragmentSearchPlaceList extends ListFragment {
     }
 
     public void addItemListView(ArrayList<PlaceItem> list) {
-        items.addAll(list);
+        placeAdapter.clear();
+        placeAdapter.addAll(list);
         placeAdapter.notifyDataSetChanged();
     }
 

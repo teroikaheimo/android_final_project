@@ -38,8 +38,6 @@ public class MainActivity extends AppCompatActivity implements FragmentSearch.Fr
     private RequestQueue requestQueue;
     private PlaceItem selectedPlace;
 
-    //// Startup data
-    private ArrayList<PlaceItem> allPlaces;
 
 private Api api = new Api();
 
@@ -53,8 +51,7 @@ private Api api = new Api();
         // Get connection manager for internet connection status check.
         connMan = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
         requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(jsonRequestBuilder(api.getPlacesAllUrl()));
-        allPlaces = new ArrayList<>();
+        requestAllPlaces();
 
 
         //// FRAGMENTS
@@ -81,40 +78,82 @@ private Api api = new Api();
     }
 
     @Override
-    public void onPlaceSearchInputSend(CharSequence input) {
-
+    public void onPlaceSearchInputSend(String input) {
+        requestSearchPlaces(input);
+        fragmentSearchPlace.clearSearch();
     }
 
-    private JsonObjectRequest jsonRequestBuilder(String url) {
-        Log.d("--URL--", url);
-        final String requestUrl = url;
-        Toast.makeText(getApplicationContext(), "Loading data..", Toast.LENGTH_LONG).show();
+    private void requestAllPlaces() {
+        final Toast loading = Toast.makeText(getApplicationContext(), "Loading data..", Toast.LENGTH_LONG);
+        loading.show();
 
-        return new JsonObjectRequest
-                (Request.Method.GET, requestUrl, null, new Response.Listener<JSONObject>() {
+        requestQueue.add(
+                new JsonObjectRequest
+                        (Request.Method.GET, api.getPlacesAllUrl(), null, new Response.Listener<JSONObject>() {
 
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray jsonArray = response.getJSONArray("data");
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                String name = jsonArray.getJSONObject(i).getJSONObject("name").getString("fi");
-                                String id = jsonArray.getJSONObject(i).getString("id");
-                                PlaceItem place = new PlaceItem(name, id);
-                                allPlaces.add(place);
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    ArrayList<PlaceItem> responceData = new ArrayList<>();
+                                    JSONArray jsonArray = response.getJSONArray("data");
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        String name = jsonArray.getJSONObject(i).getJSONObject("name").getString("fi");
+                                        String id = jsonArray.getJSONObject(i).getString("id");
+                                        PlaceItem place = new PlaceItem(name, id);
+                                        responceData.add(place);
+                                    }
+                                    loading.cancel();
+                                    fragmentSearchPlaceList.addItemListView(responceData);
+                                } catch (JSONException err) {
+                                    err.printStackTrace();
+                                }
                             }
-                            fragmentSearchPlaceList.addItemListView(allPlaces);
-                        } catch (JSONException err) {
-                            err.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), "Query failed...", Toast.LENGTH_LONG).show();
-                        Log.d(" **Query failed**", error.toString());
-                    }
-                });
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(getApplicationContext(), "Query failed...", Toast.LENGTH_LONG).show();
+                                Log.d(" **Query failed**", error.toString());
+                            }
+                        }));
+    }
+
+    private void requestSearchPlaces(String searchTerms) {
+        final Toast loading = Toast.makeText(getApplicationContext(), "Loading data..", Toast.LENGTH_LONG);
+        loading.show();
+        if (searchTerms.length() < 1) {
+            return;
+        }
+        String url = api.getPlacesSearchUrl() + searchTerms;
+
+        Log.d(" ** URL ***", url);
+        requestQueue.add(
+                new JsonObjectRequest
+                        (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    ArrayList<PlaceItem> responceData = new ArrayList<>();
+                                    JSONArray jsonArray = response.getJSONArray("data");
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        String name = jsonArray.getJSONObject(i).getJSONObject("name").getString("fi");
+                                        String id = jsonArray.getJSONObject(i).getString("id");
+                                        PlaceItem place = new PlaceItem(name, id);
+                                        responceData.add(place);
+                                    }
+                                    loading.cancel();
+                                    fragmentSearchPlaceList.addItemListView(responceData);
+                                } catch (JSONException err) {
+                                    err.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(getApplicationContext(), "Query failed...", Toast.LENGTH_LONG).show();
+                                Log.d(" **Query failed**", error.toString());
+                            }
+                        }));
     }
 
     private void clearSearch() {

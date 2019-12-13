@@ -10,15 +10,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class PlaceAdapter extends ArrayAdapter<PlaceItem> {
-    private Context context;
-    private List<PlaceItem> rowItems;
+    private ArrayList<PlaceItem> rowItems;
 
     public PlaceAdapter(@NonNull Context context, ArrayList<PlaceItem> items) {
         super(context, 0, items);
-        this.context = context;
         this.rowItems = items;
     }
 
@@ -39,4 +36,5 @@ public class PlaceAdapter extends ArrayAdapter<PlaceItem> {
 
         return convertView;
     }
+
 }

@@ -33,7 +33,7 @@ public class FragmentSearchPlace extends Fragment {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CharSequence input = searchEditText.getText();
+                String input = searchEditText.getText().toString();
                 listener.onPlaceSearchInputSend(input);
             }
         });
@@ -58,7 +58,10 @@ public class FragmentSearchPlace extends Fragment {
         listener = null;
     }
 
+    public void clearSearch() {
+        searchEditText.setText("");
+    }
     public interface FragmentSearchPlaceListener {
-        void onPlaceSearchInputSend(CharSequence input);
+        void onPlaceSearchInputSend(String input);
     }
 }

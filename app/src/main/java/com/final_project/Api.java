@@ -3,7 +3,7 @@ package com.final_project;
 public class Api {
     public String baseUrl = "https://api.hel.fi/linkedevents/v1/";
     public String placesAll = "place/";
-    public String placesSearch = "place/?text=";
+    public String placesSearch = "search/?type=place&input=";
     public String events = "search/?type=event&q=";
 
     public String getPlacesSearchUrl(){
