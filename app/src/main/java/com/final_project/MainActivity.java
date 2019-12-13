@@ -23,6 +23,8 @@ import com.final_project.Fragments.FragmentSearchPlaceList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements FragmentSearch.FragmentSearchListener, FragmentSearchPlaceList.FragmentSearchPlaceListener, FragmentSearchPlace.FragmentSearchPlaceListener {
     private final String baseUrl = "api.hel.fi/linkedevents/v1/";
     ConstraintLayout mainLayout;
@@ -33,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements FragmentSearch.Fr
     // Request HTTP
     private RequestQueue requestQueue;
     private PlaceItem selectedPlace;
+
+private Api api = new Api();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +78,12 @@ public class MainActivity extends AppCompatActivity implements FragmentSearch.Fr
 
     }
 
-    private JsonObjectRequest jsonRequestBuilder(CharSequence searchWord) {
+    private JsonObjectRequest jsonRequestBuilder(String searchWord) {
         // Exits the program IF search is empty
         if (searchWord.length() < 1) {
             this.finish();
         }
-        String requestUrl = baseUrl + searchWord + "/all";
+        String requestUrl = baseUrl + searchWord;
         Toast.makeText(getApplicationContext(), "Loading data..", Toast.LENGTH_LONG).show();
 
         return new JsonObjectRequest
