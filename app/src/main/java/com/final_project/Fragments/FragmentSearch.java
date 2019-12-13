@@ -24,9 +24,6 @@ public class FragmentSearch extends Fragment {
     private Button searchButton;
     private List<String> places;
 
-    public void updateChosenPlace(String input) {
-        chosenPlace.setText(input);
-    }
 
     @Nullable
     @Override
@@ -44,6 +41,8 @@ public class FragmentSearch extends Fragment {
                 listener.onSearchInputSend(input);
             }
         });
+
+        chosenPlace.setText(getArguments().getString("SELECTED_PLACE_NAME"));
 
         return v;
     }

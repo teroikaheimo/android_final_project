@@ -1,6 +1,7 @@
 package com.final_project;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -33,7 +34,6 @@ public class MainActivity extends AppCompatActivity implements FragmentSearch.Fr
     ConnectivityManager connMan;
     private FragmentSearchPlaceList fragmentSearchPlaceList;
     private FragmentSearchPlace fragmentSearchPlace;
-    private FragmentSearch fragmentSearch;
     // Request HTTP
     private RequestQueue requestQueue;
     private PlaceItem selectedPlace;
@@ -57,12 +57,11 @@ private Api api = new Api();
         //// FRAGMENTS
         fragmentSearchPlaceList = new FragmentSearchPlaceList();
         fragmentSearchPlace = new FragmentSearchPlace();
-        fragmentSearch = new FragmentSearch();
+
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.search_place_list_container, fragmentSearchPlaceList)
                 .replace(R.id.search_place_container, fragmentSearchPlace)
-                .replace(R.id.search_container, fragmentSearch)
                 .commit();
     }
 
@@ -74,7 +73,10 @@ private Api api = new Api();
     @Override
     public void onPlaceSelected(PlaceItem item) {
         selectedPlace = item;
-        fragmentSearch.updateChosenPlace(item.getName());
+        Intent intent = new Intent(getBaseContext(), EventsActivity.class);
+        intent.putExtra("SELECTED_PLACE_ID", item.getId());
+        intent.putExtra("SELECTED_PLACE_NAME", item.getName());
+        startActivity(intent);
     }
 
     @Override
