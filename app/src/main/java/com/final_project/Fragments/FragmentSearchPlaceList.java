@@ -41,22 +41,7 @@ public class FragmentSearchPlaceList extends ListFragment {
         items.add(new PlaceItem("Paikka 1", "tprek:26429"));
         items.add(new PlaceItem("Sellosali", "espoo:54"));
         items.add(new PlaceItem("Paikka 2", "tprek:26429"));
-        items.add(new PlaceItem("Paikka 1", "tprek:26429"));
-        items.add(new PlaceItem("Sellosali", "espoo:54"));
-        items.add(new PlaceItem("Paikka 2", "tprek:26429"));
-        items.add(new PlaceItem("Paikka 1", "tprek:26429"));
-        items.add(new PlaceItem("Sellosali", "espoo:54"));
-        items.add(new PlaceItem("Paikka 1", "tprek:26429"));
-        items.add(new PlaceItem("Sellosali", "espoo:54"));
-        items.add(new PlaceItem("Paikka 1", "tprek:26429"));
-        items.add(new PlaceItem("Paikka 1", "tprek:26429"));
-        items.add(new PlaceItem("Sellosali", "espoo:54"));
-        items.add(new PlaceItem("Paikka 2", "tprek:26429"));
-        items.add(new PlaceItem("Paikka 1", "tprek:26429"));
-        items.add(new PlaceItem("Sellosali", "espoo:54"));
-        items.add(new PlaceItem("Paikka 1", "tprek:26429"));
-        items.add(new PlaceItem("Sellosali", "espoo:54"));
-        items.add(new PlaceItem("vika", "tprek:26429"));
+
 
 
         context = getActivity();
@@ -71,8 +56,9 @@ public class FragmentSearchPlaceList extends ListFragment {
         listener.onPlaceSelected(item);
     }
 
-    public void addItemListView(CharSequence item) {
-        // TODO add items to list
+    public void addItemListView(ArrayList<PlaceItem> list) {
+        items.addAll(list);
+        placeAdapter.notifyDataSetChanged();
     }
 
     @Override

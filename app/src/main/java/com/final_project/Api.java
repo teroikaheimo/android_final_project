@@ -1,7 +1,7 @@
 package com.final_project;
 
 public class Api {
-    public String baseUrl = "api.hel.fi/linkedevents/v1/";
+    public String baseUrl = "https://api.hel.fi/linkedevents/v1/";
     public String placesAll = "place/";
     public String placesSearch = "place/?text=";
     public String events = "search/?type=event&q=";
@@ -10,7 +10,7 @@ public class Api {
         return baseUrl+placesSearch;
     }
     public String getPlacesAllUrl(){
-        return baseUrl+ placesAll;
+        return baseUrl + placesAll;
     }
     public String getEventsUrl(){
         return baseUrl+events;

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import com.final_project.Fragments.FragmentSearch;
 import com.final_project.Fragments.FragmentSearchPlace;
 import com.final_project.Fragments.FragmentSearchPlaceList;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,6 +38,9 @@ public class MainActivity extends AppCompatActivity implements FragmentSearch.Fr
     private RequestQueue requestQueue;
     private PlaceItem selectedPlace;
 
+    //// Startup data
+    private ArrayList<PlaceItem> allPlaces;
+
 private Api api = new Api();
 
     @Override
@@ -48,6 +53,8 @@ private Api api = new Api();
         // Get connection manager for internet connection status check.
         connMan = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
         requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonRequestBuilder(api.getPlacesAllUrl()));
+        allPlaces = new ArrayList<>();
 
 
         //// FRAGMENTS
@@ -78,32 +85,34 @@ private Api api = new Api();
 
     }
 
-    private JsonObjectRequest jsonRequestBuilder(String searchWord) {
-        // Exits the program IF search is empty
-        if (searchWord.length() < 1) {
-            this.finish();
-        }
-        String requestUrl = baseUrl + searchWord;
+    private JsonObjectRequest jsonRequestBuilder(String url) {
+        Log.d("--URL--", url);
+        final String requestUrl = url;
         Toast.makeText(getApplicationContext(), "Loading data..", Toast.LENGTH_LONG).show();
 
         return new JsonObjectRequest
                 (Request.Method.GET, requestUrl, null, new Response.Listener<JSONObject>() {
-                    String imgUrl;
 
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            imgUrl = response.getString("file");
-
+                            JSONArray jsonArray = response.getJSONArray("data");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                String name = jsonArray.getJSONObject(i).getJSONObject("name").getString("fi");
+                                String id = jsonArray.getJSONObject(i).getString("id");
+                                PlaceItem place = new PlaceItem(name, id);
+                                allPlaces.add(place);
+                            }
+                            fragmentSearchPlaceList.addItemListView(allPlaces);
                         } catch (JSONException err) {
                             err.printStackTrace();
                         }
                     }
                 }, new Response.ErrorListener() {
-
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(getApplicationContext(), "Query failed...", Toast.LENGTH_LONG).show();
+                        Log.d(" **Query failed**", error.toString());
                     }
                 });
     }
