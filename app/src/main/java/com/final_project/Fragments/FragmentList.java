@@ -21,6 +21,7 @@ import java.util.ArrayList;
 public class FragmentList extends ListFragment implements AdapterView.OnItemClickListener {
     private ListView itemList;
     private ArrayList<EventItem> items;
+    private EventAdapter eventAdapter;
 
     @Nullable
     @Override
@@ -34,13 +35,7 @@ public class FragmentList extends ListFragment implements AdapterView.OnItemClic
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         items = new ArrayList<>();
-
-        // TODO remove dummy data
-        items.add(new EventItem("Some title", "20€", "Some not so shot description that doesnt fit the normal space the item requires and so on and so on.......", "12.4.2020", "14.5.2020"));
-        items.add(new EventItem("Some title2", "22€", "Some not so shot description that doesnt fit the normal space the item requires and so on and so on.......", "14.4.2020", "16.5.2020"));
-        items.add(new EventItem("Some title3", "24€", "Some not so shot description that doesnt fit the normal space the item requires and so on and so on.......", "16.4.2020", "18.5.2020"));
-
-        EventAdapter eventAdapter = new EventAdapter(getActivity(), items);
+        eventAdapter = new EventAdapter(getActivity(), items);
         setListAdapter(eventAdapter);
 
 
@@ -51,8 +46,10 @@ public class FragmentList extends ListFragment implements AdapterView.OnItemClic
         Toast.makeText(getActivity(), "Item: " + position, Toast.LENGTH_SHORT).show();
     }
 
-    public void updateListView(CharSequence item) {
-
+    public void addItemListView(ArrayList<EventItem> list) {
+        eventAdapter.clear();
+        eventAdapter.addAll(list);
+        eventAdapter.notifyDataSetChanged();
     }
 
 }
