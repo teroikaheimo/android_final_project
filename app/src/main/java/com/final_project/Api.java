@@ -39,7 +39,7 @@ public class Api {
         } else {
             try {
                 String date = dt.substring(8, 10) + "." + dt.substring(5, 7) + "." + dt.substring(0, 4);
-                String time = "klo " + dt.substring(11, 13) + ":" + dt.substring(14, 16) + ":" + dt.substring(17, 19);
+                String time = "    klo " + dt.substring(11, 13) + ":" + dt.substring(14, 16) + ":" + dt.substring(17, 19);
                 formatted = date + time;
             } catch (Error err) {
                 Log.d("DATE PARSE ERROR: ", err.toString());
@@ -70,7 +70,7 @@ public class Api {
 
                 String price = "Ilmainen";
                 if (!jObj.getJSONArray("offers").isNull(0)) {
-                    price = jObj.getJSONArray("offers").getJSONObject(0).getString("price");
+                    price = jObj.getJSONArray("offers").getJSONObject(0).getJSONObject("price").getString("fi");
                 }
 
                 String audience_min_age = jObj.getString("audience_min_age");
