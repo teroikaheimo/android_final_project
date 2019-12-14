@@ -17,7 +17,7 @@ import com.final_project.R;
 
 import java.util.ArrayList;
 
-public class FragmentSearchPlaceList extends ListFragment {
+public class FragmentPlaceList extends ListFragment {
     PlaceAdapter placeAdapter;
     Context context;
     FragmentSearchPlaceListener listener;
@@ -26,7 +26,7 @@ public class FragmentSearchPlaceList extends ListFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_search_place_list, container, false);
+        View v = inflater.inflate(R.layout.fragment_place_list, container, false);
         listView = v.findViewById(android.R.id.list);
 
 
@@ -60,8 +60,8 @@ public class FragmentSearchPlaceList extends ListFragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         // Just to give an informative error IF interface NOT implemented
-        if (context instanceof FragmentSearchPlaceList.FragmentSearchPlaceListener) {
-            listener = (FragmentSearchPlaceList.FragmentSearchPlaceListener) context;
+        if (context instanceof FragmentPlaceList.FragmentSearchPlaceListener) {
+            listener = (FragmentPlaceList.FragmentSearchPlaceListener) context;
         } else {
             throw new RuntimeException(context.toString() + " remember to IMPLEMENT FragmentSearchListener");
         }

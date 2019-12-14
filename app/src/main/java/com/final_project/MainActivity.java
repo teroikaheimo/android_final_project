@@ -18,9 +18,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.final_project.Fragments.FragmentSearch;
-import com.final_project.Fragments.FragmentSearchPlace;
-import com.final_project.Fragments.FragmentSearchPlaceList;
+import com.final_project.Fragments.FragmentEventSearch;
+import com.final_project.Fragments.FragmentPlaceList;
+import com.final_project.Fragments.FragmentPlaceSearch;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,12 +28,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements FragmentSearch.FragmentSearchListener, FragmentSearchPlaceList.FragmentSearchPlaceListener, FragmentSearchPlace.FragmentSearchPlaceListener {
+public class MainActivity extends AppCompatActivity implements FragmentEventSearch.FragmentSearchListener, FragmentPlaceList.FragmentSearchPlaceListener, FragmentPlaceSearch.FragmentSearchPlaceListener {
     private final String baseUrl = "api.hel.fi/linkedevents/v1/";
     ConstraintLayout mainLayout;
     ConnectivityManager connMan;
-    private FragmentSearchPlaceList fragmentSearchPlaceList;
-    private FragmentSearchPlace fragmentSearchPlace;
+    private FragmentPlaceList fragmentPlaceList;
+    private FragmentPlaceSearch fragmentPlaceSearch;
     // Request HTTP
     private RequestQueue requestQueue;
     private PlaceItem selectedPlace;
@@ -55,13 +55,13 @@ private Api api = new Api();
 
 
         //// FRAGMENTS
-        fragmentSearchPlaceList = new FragmentSearchPlaceList();
-        fragmentSearchPlace = new FragmentSearchPlace();
+        fragmentPlaceList = new FragmentPlaceList();
+        fragmentPlaceSearch = new FragmentPlaceSearch();
 
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.search_place_list_container, fragmentSearchPlaceList)
-                .replace(R.id.search_place_container, fragmentSearchPlace)
+                .replace(R.id.search_place_list_container, fragmentPlaceList)
+                .replace(R.id.search_place_container, fragmentPlaceSearch)
                 .commit();
     }
 
@@ -82,7 +82,7 @@ private Api api = new Api();
     @Override
     public void onPlaceSearchInputSend(String input) {
         requestSearchPlaces(input);
-        fragmentSearchPlace.clearSearch();
+        fragmentPlaceSearch.clearSearch();
     }
 
     private void requestAllPlaces() {
@@ -105,7 +105,7 @@ private Api api = new Api();
                                         responceData.add(place);
                                     }
                                     loading.cancel();
-                                    fragmentSearchPlaceList.addItemListView(responceData);
+                                    fragmentPlaceList.addItemListView(responceData);
                                 } catch (JSONException err) {
                                     err.printStackTrace();
                                 }
@@ -144,7 +144,7 @@ private Api api = new Api();
                                         responceData.add(place);
                                     }
                                     loading.cancel();
-                                    fragmentSearchPlaceList.addItemListView(responceData);
+                                    fragmentPlaceList.addItemListView(responceData);
                                 } catch (JSONException err) {
                                     err.printStackTrace();
                                 }

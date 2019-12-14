@@ -27,7 +27,7 @@ public class PlaceAdapter extends ArrayAdapter<PlaceItem> {
         // IF null then inflate the layout. Otherwise just update layout contents.
         if (convertView == null) {
             // Get the custom layout and inflate it
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.place_list_item, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_place, parent, false);
         }
 
         TextView name = convertView.findViewById(R.id.place_name);

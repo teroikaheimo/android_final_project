@@ -12,8 +12,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.final_project.Fragments.FragmentList;
-import com.final_project.Fragments.FragmentSearch;
+import com.final_project.Fragments.FragmentEventList;
+import com.final_project.Fragments.FragmentEventSearch;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,11 +21,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class EventsActivity extends AppCompatActivity implements FragmentSearch.FragmentSearchListener {
-    private FragmentList fragmentList;
+public class EventsActivity extends AppCompatActivity implements FragmentEventSearch.FragmentSearchListener {
+    private FragmentEventList fragmentEventList;
     String selectedPlaceId;
     String selectedPlaceName;
-    private FragmentSearch fragmentSearch;
+    private FragmentEventSearch fragmentEventSearch;
     private Api api;
     private RequestQueue requestQueue;
 
@@ -36,8 +36,8 @@ public class EventsActivity extends AppCompatActivity implements FragmentSearch.
         api = new Api();
         requestQueue = Volley.newRequestQueue(this);
 
-        fragmentList = new FragmentList();
-        fragmentSearch = new FragmentSearch();
+        fragmentEventList = new FragmentEventList();
+        fragmentEventSearch = new FragmentEventSearch();
 
         // Get selected place info from previous intent
         String selectedPlaceId = getIntent().getStringExtra("SELECTED_PLACE_ID");
@@ -45,11 +45,11 @@ public class EventsActivity extends AppCompatActivity implements FragmentSearch.
 
         Bundle bundle = new Bundle();
         bundle.putString("SELECTED_PLACE_NAME", selectedPlaceName);
-        fragmentSearch.setArguments(bundle);
+        fragmentEventSearch.setArguments(bundle);
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.list_container, fragmentList)
-                .replace(R.id.search_container, fragmentSearch)
+                .replace(R.id.list_container, fragmentEventList)
+                .replace(R.id.search_container, fragmentEventSearch)
                 .commit();
 
         // At start load recent events
@@ -157,7 +157,7 @@ public class EventsActivity extends AppCompatActivity implements FragmentSearch.
                                 try {
                                     JSONArray jsonArray = response.getJSONArray("data");
                                     loading.cancel();
-                                    fragmentList.addItemListView(jsonArrayToEventArray(jsonArray));
+                                    fragmentEventList.addItemListView(jsonArrayToEventArray(jsonArray));
                                 } catch (JSONException err) {
                                     err.printStackTrace();
                                 }

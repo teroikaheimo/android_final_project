@@ -17,7 +17,7 @@ import com.final_project.R;
 
 import java.util.List;
 
-public class FragmentSearch extends Fragment {
+public class FragmentEventSearch extends Fragment {
     private FragmentSearchListener listener;
     private EditText searchEditText;
     private TextView chosenPlace;
@@ -28,7 +28,7 @@ public class FragmentSearch extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_search, container, false);
+        View v = inflater.inflate(R.layout.fragment_event_search, container, false);
         searchEditText = v.findViewById(R.id.search_place_text);
         searchButton = v.findViewById(R.id.searchButton);
         chosenPlace = v.findViewById(R.id.chosen_place);

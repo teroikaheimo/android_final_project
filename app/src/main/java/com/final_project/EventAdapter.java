@@ -30,7 +30,7 @@ public class EventAdapter extends ArrayAdapter<EventItem> {
         // IF null then inflate the layout. Otherwise just update layout contents.
         if (convertView == null) {
             // Get the custom layout and inflate it
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.event_list_item, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_event, parent, false);
         }
 
         // Get the customLayout components

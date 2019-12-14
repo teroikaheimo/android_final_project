@@ -22,7 +22,7 @@ public class Api {
     }
 
     public String formatDateTime(String dt) {
-        // 2019-08-13T04:14:15.980685Z -> 13.08.2019 klo 04:14:15
+        // 2019-08-13T04:14:15.980685Z -> 13.08.2019   klo 04:14:15
         String date = dt.substring(8, 10) + "." + dt.substring(5, 7) + "." + dt.substring(0, 4);
         String time = "klo " + dt.substring(11, 13) + ":" + dt.substring(14, 16) + ":" + dt.substring(17, 19);
         return date + "  " + time;

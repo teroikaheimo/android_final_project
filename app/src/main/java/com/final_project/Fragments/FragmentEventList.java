@@ -18,7 +18,7 @@ import com.final_project.R;
 
 import java.util.ArrayList;
 
-public class FragmentList extends ListFragment implements AdapterView.OnItemClickListener {
+public class FragmentEventList extends ListFragment implements AdapterView.OnItemClickListener {
     private ListView itemList;
     private ArrayList<EventItem> items;
     private EventAdapter eventAdapter;
@@ -26,7 +26,7 @@ public class FragmentList extends ListFragment implements AdapterView.OnItemClic
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_list, container, false);
+        View v = inflater.inflate(R.layout.fragment_event_list, container, false);
         itemList = v.findViewById(android.R.id.list);
         return v;
     }
