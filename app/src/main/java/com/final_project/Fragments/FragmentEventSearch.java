@@ -22,6 +22,7 @@ public class FragmentEventSearch extends Fragment {
     private EditText searchEditText;
     private TextView chosenPlace;
     private Button searchButton;
+    private Button clearPlaceButton;
     private List<String> places;
 
 
@@ -31,6 +32,7 @@ public class FragmentEventSearch extends Fragment {
         View v = inflater.inflate(R.layout.fragment_event_search, container, false);
         searchEditText = v.findViewById(R.id.search_place_text);
         searchButton = v.findViewById(R.id.searchButton);
+        clearPlaceButton = v.findViewById(R.id.button_clear_place);
         chosenPlace = v.findViewById(R.id.chosen_place);
 
 
@@ -39,6 +41,14 @@ public class FragmentEventSearch extends Fragment {
             public void onClick(View v) {
                 CharSequence input = searchEditText.getText();
                 listener.onSearchInputSend(input);
+            }
+        });
+
+        clearPlaceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chosenPlace.setText("");
+                listener.onClearPlaceClicked();
             }
         });
 
@@ -66,5 +76,7 @@ public class FragmentEventSearch extends Fragment {
 
     public interface FragmentSearchListener {
         void onSearchInputSend(CharSequence input);
+
+        void onClearPlaceClicked();
     }
 }

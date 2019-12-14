@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -71,6 +72,11 @@ private Api api = new Api();
     }
 
     @Override
+    public void onClearPlaceClicked() {
+
+    }
+
+    @Override
     public void onPlaceSelected(PlaceItem item) {
         selectedPlace = item;
         Intent intent = new Intent(getBaseContext(), EventsActivity.class);
@@ -88,6 +94,7 @@ private Api api = new Api();
     private void requestAllPlaces() {
         final Toast loading = Toast.makeText(getApplicationContext(), "Loading data..", Toast.LENGTH_LONG);
         loading.show();
+        Log.d(" URL ", api.getPlacesAllUrl());
 
         requestQueue.add(
                 new JsonObjectRequest
@@ -107,7 +114,10 @@ private Api api = new Api();
                                     loading.cancel();
                                     fragmentPlaceList.addItemListView(responceData);
                                 } catch (JSONException err) {
+                                    Log.d("JSON Error", err.toString());
                                     err.printStackTrace();
+                                } catch (Error err) {
+                                    Log.d("REQUESTS Error: ", err.toString());
                                 }
                             }
                         }, new Response.ErrorListener() {
@@ -115,8 +125,9 @@ private Api api = new Api();
                             public void onErrorResponse(VolleyError error) {
                                 Toast.makeText(getApplicationContext(), "Query failed...", Toast.LENGTH_LONG).show();
                                 Log.d(" **Query failed**", error.toString());
+
                             }
-                        }));
+                        }).setRetryPolicy(new DefaultRetryPolicy(8000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)));
     }
 
     private void requestSearchPlaces(String searchTerms) {
@@ -155,7 +166,7 @@ private Api api = new Api();
                                 Toast.makeText(getApplicationContext(), "Query failed...", Toast.LENGTH_LONG).show();
                                 Log.d(" **Query failed**", error.toString());
                             }
-                        }));
+                        }).setRetryPolicy(new DefaultRetryPolicy(8000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)));
     }
 
     private void clearSearch() {
