@@ -12,7 +12,7 @@ public class Api {
     public String baseUrl = "https://api.hel.fi/linkedevents/v1/";
     public String placesAll = "place/";
     public String eventsAllToday = "event/?sort=start_time&start=today"; // GET ALL events that start today or after.
-    public String placesSearch = "event/?type=place&q=";
+    public String placesSearch = "search/?type=place&q=";
     public String eventsSearch = "event/?sort=start_time&start=today";
 
     public String getPlacesSearchUrl(){
@@ -68,6 +68,7 @@ public class Api {
                     name = jObjName.getString("sv");
                 }
 
+                // TODO fix price data bug where data might be null or other...
                 String price = "Ilmainen";
                 if (!jObj.getJSONArray("offers").isNull(0)) {
                     price = jObj.getJSONArray("offers").getJSONObject(0).getJSONObject("price").getString("fi");

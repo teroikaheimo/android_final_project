@@ -87,6 +87,7 @@ private Api api = new Api();
 
     @Override
     public void onPlaceSearchInputSend(String input) {
+        hideKeyboard();
         requestSearchPlaces(input);
         fragmentPlaceSearch.clearSearch();
     }
