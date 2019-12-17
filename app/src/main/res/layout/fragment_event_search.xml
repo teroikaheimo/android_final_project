@@ -25,6 +25,8 @@
             android:layout_height="35dp"
             android:layout_gravity="end"
             android:layout_weight="0"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:text="Valitse paikka"
             android:textColorLink="#BE0606" />
 
@@ -49,6 +51,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:text="Aloitus Pvm."
             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
@@ -57,6 +61,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:text="Lopetus Pvm."
             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
     </LinearLayout>
@@ -103,6 +109,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="30"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:text="Haku" />
     </LinearLayout>
 

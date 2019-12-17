@@ -23,22 +23,20 @@ public class FragmentPlaceList extends ListFragment {
     FragmentSearchPlaceListener listener;
     ListView listView;
     private ArrayList<PlaceItem> items;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_place_list, container, false);
         listView = v.findViewById(android.R.id.list);
-
-
         return v;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        items = new ArrayList<>();
-
         context = getActivity();
+        items = new ArrayList<>();
         placeAdapter = new PlaceAdapter(getActivity(), items);
         setListAdapter(placeAdapter);
     }
@@ -63,7 +61,7 @@ public class FragmentPlaceList extends ListFragment {
         if (context instanceof FragmentPlaceList.FragmentSearchPlaceListener) {
             listener = (FragmentPlaceList.FragmentSearchPlaceListener) context;
         } else {
-            throw new RuntimeException(context.toString() + " remember to IMPLEMENT FragmentSearchListener");
+            throw new RuntimeException(context.toString() + " remember to IMPLEMENT listener");
         }
     }
 

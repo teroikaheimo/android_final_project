@@ -25,7 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class EventsActivity extends AppCompatActivity implements FragmentEventSearch.FragmentSearchListener, FragmentDatePicker.ListenerDatePicker {
+public class EventsActivity extends AppCompatActivity implements FragmentEventSearch.FragmentSearchListener, FragmentDatePicker.ListenerDatePicker, FragmentEventList.EventListListener {
     private FragmentEventList fragmentEventList;
     private FragmentEventSearch fragmentEventSearch;
     // State to bundle
@@ -89,6 +89,12 @@ public class EventsActivity extends AppCompatActivity implements FragmentEventSe
         api.updateSearchParameter("text", searchText);
 
     }
+
+    @Override
+    public void onItemClick(EventItem item) {
+
+    }
+
 
     @Override
     public void onUserSetDate(int id, int year, int month, int dayOfMonth) {
