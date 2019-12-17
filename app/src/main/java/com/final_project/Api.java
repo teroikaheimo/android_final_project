@@ -61,11 +61,11 @@ public class Api { // Singleton class!
         } else {
             try {
                 String date = dt.substring(8, 10) + "." + dt.substring(5, 7) + "." + dt.substring(0, 4);
-                String time = "    klo " + dt.substring(11, 13) + ":" + dt.substring(14, 16) + ":" + dt.substring(17, 19);
+                String time = " klo " + dt.substring(11, 13) + ":" + dt.substring(14, 16);
                 formatted = date + time;
             } catch (Error err) {
                 Log.d("DATE PARSE ERROR: ", err.toString());
-                formatted = "-";
+                formatted = "";
             }
         }
         return formatted;

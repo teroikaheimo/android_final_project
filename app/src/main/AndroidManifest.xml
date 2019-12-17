@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ActivityEventDetails"></activity>
+        <activity android:name=".EventDetailsActivity"></activity>
         <activity
             android:name=".EventsActivity"
             android:windowSoftInputMode="stateHidden"></activity>

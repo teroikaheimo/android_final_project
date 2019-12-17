@@ -92,9 +92,29 @@ public class EventsActivity extends AppCompatActivity implements FragmentEventSe
 
     @Override
     public void onItemClick(EventItem item) {
-
+        Intent intent = new Intent(EventsActivity.this, EventDetailsActivity.class);
+        intent.putExtras(eventItemToBundle(item, getStateBundle()));
+        startActivity(intent);
     }
 
+
+    public Bundle eventItemToBundle(EventItem item, Bundle stateBundle) {
+        Bundle b = new Bundle();
+        b.putAll(stateBundle);
+        b.putString("EVENT_ITEM_ID", item.id);
+        b.putString("EVENT_ITEM_NAME", item.name);
+        b.putString("EVENT_ITEM_PRICE", item.price);
+        b.putString("EVENT_ITEM_MIN_AGE", item.audience_min_age);
+        b.putString("EVENT_ITEM_MAX_AGE", item.audience_max_age);
+        String itemUrls = item.image_urls.toString();
+        Log.d("imageURLS", itemUrls);
+        b.putString("EVENT_ITEM_IMAGE_URLS", itemUrls);
+        b.putString("EVENT_ITEM_DESCRIPTION", item.description);
+        b.putString("EVENT_ITEM_START_TIME", item.start_time);
+        b.putString("EVENT_ITEM_END_TIME", item.end_time);
+        b.putString("EVENT_ITEM_PLACE_NAME", item.place_name);
+        return b;
+    }
 
     @Override
     public void onUserSetDate(int id, int year, int month, int dayOfMonth) {
@@ -151,9 +171,7 @@ public class EventsActivity extends AppCompatActivity implements FragmentEventSe
         picker.show(getSupportFragmentManager(), "endDatePicker");
     }
 
-    @Override
-    public void onSelectPlaceClicked() {
-        Intent intent = new Intent(EventsActivity.this, MainActivity.class);
+    public Bundle getStateBundle() {
         Bundle b = new Bundle();
         b.putString("SELECTED_PLACE_ID", selectedPlaceId);
         b.putString("SELECTED_PLACE_NAME", selectedPlaceName);
@@ -162,7 +180,13 @@ public class EventsActivity extends AppCompatActivity implements FragmentEventSe
         b.putString("END_DATE_ISO", endDateIso);
         b.putString("END_DATE_DISPLAY", endDateDisplay);
         b.putString("SEARCH_TEXT", searchText);
-        intent.putExtras(b);
+        return b;
+    }
+
+    @Override
+    public void onSelectPlaceClicked() {
+        Intent intent = new Intent(EventsActivity.this, MainActivity.class);
+        intent.putExtras(getStateBundle());
         startActivity(intent);
     }
 

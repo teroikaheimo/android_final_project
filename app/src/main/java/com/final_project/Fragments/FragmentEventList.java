@@ -44,8 +44,10 @@ public class FragmentEventList extends ListFragment {
 
     @Override
     public void onListItemClick(@NonNull ListView l, @NonNull View v, int position, long id) {
-        Log.d("CLICK", "onListItemClick: " + position);
         super.onListItemClick(l, v, position, id);
+        Log.d("CLICK", "onListItemClick: " + position);
+        EventItem item = items.get(position);
+        listener.onItemClick(item);
     }
 
     @Override

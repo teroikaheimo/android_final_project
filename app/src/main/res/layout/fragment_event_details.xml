@@ -10,7 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/event_details_image_layout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="32dp"
         app:layout_constraintBottom_toTopOf="@+id/event_details_text_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,10 +19,10 @@
 
         <ImageView
             android:id="@+id/event_details_image"
-            android:layout_width="wrap_content"
-            android:layout_height="270dp"
-            android:scaleType="centerInside"
-            app:layout_constraintBottom_toTopOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="H,16:9"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -31,8 +32,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/event_details_text_layout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,17 +40,18 @@
 
         <TextView
             android:id="@+id/event_detail_name"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
+            android:ellipsize="none"
             android:ems="10"
             android:foregroundGravity="center"
             android:gravity="center"
-            android:inputType="text"
+            android:maxLines="2"
             android:padding="5dp"
-            android:text="Esimerkki tapahtuman nimi"
+            android:text="Too long title that must go on two lines by wrapping."
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -74,16 +75,17 @@
                 android:layout_weight="15"
                 android:drawableStart="@drawable/ic_location_on_black_24dp"
                 android:gravity="start|top"
-                android:paddingRight="5dp"
+                android:paddingEnd="16dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
             <TextView
                 android:id="@+id/event_detail_location"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_gravity="start"
                 android:layout_weight="85"
-                android:foregroundGravity="center"
-                android:gravity="center"
+                android:foregroundGravity="left"
+                android:gravity="start"
                 android:text="Location title that can be long too. Too long in mean. So what its going to be?" />
         </LinearLayout>
 
@@ -105,16 +107,17 @@
                 android:layout_weight="15"
                 android:drawableStart="@drawable/ic_access_time_black_24dp"
                 android:gravity="start|top"
-                android:paddingRight="5dp"
+                android:paddingEnd="16dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
             <TextView
                 android:id="@+id/event_detail_time"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_gravity="start"
                 android:layout_weight="85"
-                android:foregroundGravity="center"
-                android:gravity="center"
+                android:foregroundGravity="left"
+                android:gravity="start"
                 android:text="Location title that can be long too. Too long in mean. So what its going to be?" />
         </LinearLayout>
 
@@ -136,21 +139,22 @@
                 android:layout_weight="15"
                 android:drawableStart="@drawable/ic_attach_money_black_24dp"
                 android:gravity="start|top"
-                android:paddingRight="5dp"
+                android:paddingEnd="16dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
             <TextView
                 android:id="@+id/event_detail_price"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_gravity="start"
                 android:layout_weight="85"
-                android:foregroundGravity="center"
-                android:gravity="center"
+                android:foregroundGravity="left"
+                android:gravity="start"
                 android:text="Location title that can be long too. Too long in mean. So what its going to be?" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/event_detail_age_limit_layout"
+            android:id="@+id/event_detail_description_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -159,53 +163,16 @@
             android:padding="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/event_detail_price_layout">
+            app:layout_constraintTop_toBottomOf="@+id/event_detail_price_layout"
+            tools:layout_editor_absoluteY="259dp">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="15"
-                android:drawableStart="@drawable/ic_people_black_24dp"
-                android:gravity="start|top"
-                android:paddingRight="5dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
-
-            <TextView
-                android:id="@+id/event_detail_age_limit"
+                android:id="@+id/event_detail_description"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="85"
-                android:foregroundGravity="center"
-                android:gravity="center"
-                android:text="Location title that can be long too. Too long in mean. So what its going to be?" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/event_detail_detail_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="horizontal"
-            android:padding="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/event_detail_age_limit_layout">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="15"
-                android:paddingRight="5dp" />
-
-            <TextView
-                android:id="@+id/event_detail_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="85"
-                android:foregroundGravity="center"
-                android:gravity="center"
-                android:text="Too long test to fit in this one line so it goes on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on" />
+                android:foregroundGravity="top"
+                android:text="Too long test to fit in this one line so it goes on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and onToo long test to fit in this one line so it goes on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and onToo long test to fit in this one line so it goes on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
