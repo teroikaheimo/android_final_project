@@ -13,8 +13,9 @@ public class EventItem {
     String short_description; // obj.data[i].short_description.fi
     String start_time; // obj.data[i].start_time
     String end_time; // obj.data[i].end_time
+    String place_name; // obj.data[i].location.name
 
-    public EventItem(String id, String name, String price, String audience_min_age, String audience_max_age, ArrayList<String> imageUrls, String description, String short_description, String start_time, String end_time) {
+    public EventItem(String id, String name, String price, String audience_min_age, String audience_max_age, ArrayList<String> imageUrls, String description, String short_description, String start_time, String end_time, String place_name) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -25,5 +26,6 @@ public class EventItem {
         this.short_description = short_description;
         this.start_time = start_time;
         this.end_time = end_time;
+        this.place_name = place_name;
     }
 }

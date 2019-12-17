@@ -8,26 +8,48 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Api {
+public class Api { // Singleton class!
+    private static Api api = new Api();
+    // Places
+    public String places = "place/";
+    // Events
+    public String events = "event/";
+    public String eventsSearch = events;
+    private SearchParametersList eventSearchParameters;
+
+    private Api() {
+        eventSearchParameters = new SearchParametersList();
+        eventSearchParameters.addSearchParameter(new SearchParameter("sort", "start_time")); // show only on going on newer events
+        eventSearchParameters.addSearchParameter(new SearchParameter("include", "location")); // include location data to results
+        eventSearchParameters.addSearchParameter(new SearchParameter("start", "today")); // default is to fetch only events that are on going or newer.
+        eventSearchParameters.addSearchParameter(new SearchParameter("location", "")); // location id:s comma separated. tprek:28473,tprek:34142...
+        eventSearchParameters.addSearchParameter(new SearchParameter("end", "")); // end date for events
+        eventSearchParameters.addSearchParameter(new SearchParameter("text", "")); // text search
+    }
     public String baseUrl = "https://api.hel.fi/linkedevents/v1/";
-    public String placesAll = "place/";
-    public String eventsAllToday = "event/?sort=start_time&start=today"; // GET ALL events that start today or after.
+
+    public static Api getInstance() {
+        return api;
+    }
     public String placesSearch = "search/?type=place&q=";
-    public String eventsSearch = "event/?sort=start_time&start=today";
+
+    public String getEventsUrl() {
+        return baseUrl + events + eventSearchParameters.getSearchParameterString();
+    }
+
+    public boolean updateSearchParameter(String prefix, String value) {
+        return eventSearchParameters.updateSearchParameter(prefix, value);
+    }
 
     public String getPlacesSearchUrl(){
         return baseUrl+placesSearch;
     }
-    public String getPlacesAllUrl(){
-        return baseUrl + placesAll;
-    }
 
+    public String getPlacesAllUrl(){
+        return baseUrl + places;
+    }
     public String getEventsSearchUrl() {
         return baseUrl + eventsSearch;
-    }
-
-    public String getEventsAllTodayUrl() {
-        return baseUrl + eventsAllToday;
     }
 
     public String formatDateTime(String dt) {
@@ -68,9 +90,13 @@ public class Api {
                     name = jObjName.getString("sv");
                 }
 
-                // TODO fix price data bug where data might be null or other...
-                String price = "Ilmainen";
-                if (!jObj.getJSONArray("offers").isNull(0)) {
+
+                String price = "-";
+
+                // IF has the is_free property AND event IS free. Do.
+                if (jObj.getJSONArray("offers").getJSONObject(0).has("is_free") && jObj.getJSONArray("offers").getJSONObject(0).getBoolean("is_free")) {
+                    price = "Ilmainen";
+                } else if (jObj.getJSONArray("offers").getJSONObject(0).getJSONObject("price").has("fi")) {
                     price = jObj.getJSONArray("offers").getJSONObject(0).getJSONObject("price").getString("fi");
                 }
 
@@ -117,11 +143,15 @@ public class Api {
 
                 String end_time = "-";
                 if (!jObj.isNull("end_time")) {
-                    Log.d(" INVALID ", jObj.getString("end_time"));
                     end_time = formatDateTime(jObj.getString("end_time"));
                 }
 
-                EventItem event = new EventItem(id, name, price, audience_min_age, audience_max_age, imageUrls, description, short_description, start_time, end_time);
+                String place_name = "";
+                if (jObj.getJSONObject("location").getJSONObject("name").has("fi")) {
+                    place_name = jObj.getJSONObject("location").getJSONObject("name").getString("fi");
+                }
+
+                EventItem event = new EventItem(id, name, price, audience_min_age, audience_max_age, imageUrls, description, short_description, start_time, end_time, place_name);
                 returnData.add(event);
             } catch (JSONException error) {
                 Log.d("JSON Error", error.toString());

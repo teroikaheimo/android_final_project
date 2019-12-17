@@ -19,7 +19,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.final_project.Fragments.FragmentEventSearch;
 import com.final_project.Fragments.FragmentPlaceList;
 import com.final_project.Fragments.FragmentPlaceSearch;
 
@@ -29,7 +28,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements FragmentEventSearch.FragmentSearchListener, FragmentPlaceList.FragmentSearchPlaceListener, FragmentPlaceSearch.FragmentSearchPlaceListener {
+public class MainActivity extends AppCompatActivity implements FragmentPlaceList.FragmentSearchPlaceListener, FragmentPlaceSearch.FragmentSearchPlaceListener {
     private final String baseUrl = "api.hel.fi/linkedevents/v1/";
     ConstraintLayout mainLayout;
     ConnectivityManager connMan;
@@ -40,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements FragmentEventSear
     private PlaceItem selectedPlace;
 
 
-private Api api = new Api();
+    private Api api = Api.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,21 +66,14 @@ private Api api = new Api();
     }
 
     @Override
-    public void onSearchInputSend(CharSequence input) {
-        // TODO search events
-    }
-
-    @Override
-    public void onClearPlaceClicked() {
-
-    }
-
-    @Override
     public void onPlaceSelected(PlaceItem item) {
+        Bundle oldBundle = this.getIntent().getExtras();
+
         selectedPlace = item;
         Intent intent = new Intent(getBaseContext(), EventsActivity.class);
-        intent.putExtra("SELECTED_PLACE_ID", item.getId());
-        intent.putExtra("SELECTED_PLACE_NAME", item.getName());
+        oldBundle.putString("SELECTED_PLACE_ID", item.getId());
+        oldBundle.putString("SELECTED_PLACE_NAME", item.getName());
+        intent.putExtras(oldBundle);
         startActivity(intent);
     }
 

@@ -39,12 +39,14 @@ public class EventAdapter extends ArrayAdapter<EventItem> {
         TextView shortDescription = convertView.findViewById(R.id.short_description);
         TextView startDate = convertView.findViewById(R.id.start_date);
         TextView endDate = convertView.findViewById(R.id.end_date);
+        TextView eventPlaceName = convertView.findViewById(R.id.event_place_name);
 
         title.setText(item.name);
         price.setText(item.price);
         shortDescription.setText(item.short_description);
         startDate.setText(item.start_time);
         endDate.setText(item.end_time);
+        eventPlaceName.setText(item.place_name);
 
 
         return convertView;
