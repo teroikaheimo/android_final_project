@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.final_project.Fragments.FragmentEventDetails;
 
-public class EventDetailsActivity extends AppCompatActivity implements FragmentEventDetails.OnFragmentInteractionListener {
+public class EventDetailsActivity extends AppCompatActivity {
     FragmentEventDetails fragmentEventDetails;
 
 
@@ -23,8 +23,4 @@ public class EventDetailsActivity extends AppCompatActivity implements FragmentE
 
     }
 
-    @Override
-    public void onViewAllImagesClick() {
-
-    }
 }
