@@ -86,7 +86,7 @@ public class PlaceActivity extends AppCompatActivity implements FragmentPlaceLis
     }
 
     private void requestAllPlaces() {
-        final Toast loading = Toast.makeText(getApplicationContext(), "Loading data..", Toast.LENGTH_LONG);
+        final Toast loading = Toast.makeText(getApplicationContext(), "Ladataan...", Toast.LENGTH_LONG);
         loading.show();
         Log.d(" URL ", api.getPlacesAllUrl());
 
@@ -117,16 +117,16 @@ public class PlaceActivity extends AppCompatActivity implements FragmentPlaceLis
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(getApplicationContext(), "Query failed...", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "Kysely epäonnistui!", Toast.LENGTH_LONG).show();
                                 checkInternetConnection();
-                                Log.d(" **Query failed**", error.toString());
+                                error.printStackTrace();
 
                             }
                         }).setRetryPolicy(new DefaultRetryPolicy(8000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)));
     }
 
     private void requestSearchPlaces(String searchTerms) {
-        final Toast loading = Toast.makeText(getApplicationContext(), "Loading data..", Toast.LENGTH_LONG);
+        final Toast loading = Toast.makeText(getApplicationContext(), "Ladataan...", Toast.LENGTH_LONG);
         loading.show();
         if (searchTerms.length() < 1) {
             return;
