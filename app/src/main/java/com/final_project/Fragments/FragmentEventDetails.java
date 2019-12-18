@@ -37,8 +37,6 @@ public class FragmentEventDetails extends Fragment {
         return Resources.getSystem().getDisplayMetrics().widthPixels;
     }
 
-    // TODO remove demo code below!!
-    private boolean demoImagesFetched = false;
 
     private void getEventImage(String url) {
         requestQueue.add(imageRequestBuilder(url));
@@ -131,8 +129,6 @@ public class FragmentEventDetails extends Fragment {
                         if (bitmap != null) {
                             try {
                                 addImageToScroll(bitmap);
-                                // TODO remove demo code
-                                loadDemoImages();
                             } catch (Error e) {
                                 e.printStackTrace();
                             }
@@ -144,13 +140,5 @@ public class FragmentEventDetails extends Fragment {
                         Log.d("Fetching image failed", url);
                     }
                 });
-    }
-
-    private void loadDemoImages() {
-        if (!demoImagesFetched) {
-            getEventImage("https://66.media.tumblr.com/9cfe67ac6426c306dff45ae57758fbc7/8814a19075e6bfd0-df/s2048x3072/4f3342a7676d828736320645aed36033446bc7e9.jpg");
-            getEventImage("https://66.media.tumblr.com/a1d4d466d78c1f333ce663cd4a4a94a1/65b9bd2d5284b2c9-aa/s640x960/41feda1845e0dbed437aca8b948d9d4ef7b360b7.jpg");
-        }
-        demoImagesFetched = true;
     }
 }
