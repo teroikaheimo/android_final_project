@@ -1,5 +1,6 @@
 package com.final_project;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -29,7 +30,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements FragmentPlaceList.FragmentSearchPlaceListener, FragmentPlaceSearch.FragmentSearchPlaceListener {
-    private final String baseUrl = "api.hel.fi/linkedevents/v1/";
     ConstraintLayout mainLayout;
     ConnectivityManager connMan;
     private FragmentPlaceList fragmentPlaceList;
@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements FragmentPlaceList
     @Override
     public void onPlaceSelected(PlaceItem item) {
         Bundle oldBundle = this.getIntent().getExtras();
-
         selectedPlace = item;
         Intent intent = new Intent(getBaseContext(), EventsActivity.class);
         oldBundle.putString("SELECTED_PLACE_ID", item.getId());
@@ -117,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements FragmentPlaceList
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Toast.makeText(getApplicationContext(), "Query failed...", Toast.LENGTH_LONG).show();
+                                checkInternetConnection();
                                 Log.d(" **Query failed**", error.toString());
 
                             }
@@ -162,10 +162,6 @@ public class MainActivity extends AppCompatActivity implements FragmentPlaceList
                         }).setRetryPolicy(new DefaultRetryPolicy(8000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)));
     }
 
-    private void clearSearch() {
-        // TODO clear search
-        hideKeyboard();
-    }
 
     private void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -181,4 +177,14 @@ public class MainActivity extends AppCompatActivity implements FragmentPlaceList
         NetworkInfo network = connMan.getActiveNetworkInfo();
         return network != null && network.isConnectedOrConnecting();
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent();
+        Bundle b = getIntent().getExtras();
+        intent.putExtras(b);
+        setResult(Activity.RESULT_OK, intent);
+    }
+
 }
