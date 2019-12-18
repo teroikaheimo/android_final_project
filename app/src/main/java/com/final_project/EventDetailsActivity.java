@@ -1,5 +1,7 @@
 package com.final_project;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,4 +25,12 @@ public class EventDetailsActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent();
+        Bundle b = getIntent().getExtras();
+        intent.putExtras(b);
+        setResult(Activity.RESULT_OK, intent);
+    }
 }

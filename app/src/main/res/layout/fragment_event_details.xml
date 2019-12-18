@@ -178,6 +178,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="85"
                 android:foregroundGravity="top"
+                android:paddingTop="16dp"
                 android:text="Too long test to fit in this one line so it goes on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and onToo long test to fit in this one line so it goes on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and onToo long test to fit in this one line so it goes on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on on on and on and on and on" />
         </LinearLayout>
 
