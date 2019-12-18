@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,6 +73,7 @@ public class FragmentEventDetails extends Fragment {
             }
 
             eventDescription.setText(Html.fromHtml(b.getString("EVENT_ITEM_DESCRIPTION")));
+            eventDescription.setMovementMethod(LinkMovementMethod.getInstance()); // Make links open in a browser
             eStartTime = b.getString("EVENT_ITEM_START_TIME");
             eEndTime = b.getString("EVENT_ITEM_END_TIME");
             String timeString = "";
@@ -121,7 +123,7 @@ public class FragmentEventDetails extends Fragment {
                 }, 1920, 1080, null, Bitmap.Config.RGB_565, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(), "Fetching image failed.", Toast.LENGTH_LONG).show();
+                        Log.d("Fetching image failed", url);
                     }
                 });
     }

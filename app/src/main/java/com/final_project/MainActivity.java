@@ -67,9 +67,9 @@ public class MainActivity extends AppCompatActivity implements FragmentPlaceList
 
     @Override
     public void onPlaceSelected(PlaceItem item) {
-        Bundle oldBundle = this.getIntent().getExtras();
+        Bundle oldBundle = getIntent().getExtras();
         selectedPlace = item;
-        Intent intent = new Intent(getBaseContext(), EventsActivity.class);
+        Intent intent = new Intent(MainActivity.this, EventsActivity.class);
         oldBundle.putString("SELECTED_PLACE_ID", item.getId());
         oldBundle.putString("SELECTED_PLACE_NAME", item.getName());
         intent.putExtras(oldBundle);

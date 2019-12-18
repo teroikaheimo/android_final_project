@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class Api { // Singleton class!
     private static Api api = new Api();
@@ -52,6 +53,21 @@ public class Api { // Singleton class!
         return baseUrl + eventsSearch;
     }
 
+    public String getDateTodayStringDisplay() {
+        Calendar c = Calendar.getInstance();
+        int y = c.get(Calendar.YEAR);
+        int m = c.get(Calendar.MONTH) + 1; // Because Calendar month is zero based
+        int d = c.get(Calendar.DAY_OF_MONTH);
+        return d + "." + m + "." + y;
+    }
+
+    public String getDateTodayStringIso() {
+        Calendar c = Calendar.getInstance();
+        int y = c.get(Calendar.YEAR);
+        int m = c.get(Calendar.MONTH) + 1; // Because Calendar month is zero based
+        int d = c.get(Calendar.DAY_OF_MONTH);
+        return y + "-" + m + "-" + d;
+    }
     public String formatDateTime(String dt) {
         // 2019-08-13T04:14:15.980685Z -> 13.08.2019   klo 04:14:15
         // OR 2019-08-13 -> 13.08.2019
@@ -91,14 +107,16 @@ public class Api { // Singleton class!
                 }
 
 
-                String price = "-";
-
+                String price = "";
                 // IF has the is_free property AND event IS free. Do.
-                if (jObj.getJSONArray("offers").getJSONObject(0).has("is_free") && jObj.getJSONArray("offers").getJSONObject(0).getBoolean("is_free")) {
-                    price = "Ilmainen";
-                } else if (jObj.getJSONArray("offers").getJSONObject(0).getJSONObject("price").has("fi")) {
-                    price = jObj.getJSONArray("offers").getJSONObject(0).getJSONObject("price").getString("fi");
+                if (jObj.getJSONArray("offers").length() > 0) {
+                    if (jObj.getJSONArray("offers").getJSONObject(0).has("is_free") && jObj.getJSONArray("offers").getJSONObject(0).getBoolean("is_free")) {
+                        price = "Ilmainen";
+                    } else if (jObj.getJSONArray("offers").getJSONObject(0).has("price") && !jObj.getJSONArray("offers").getJSONObject(0).isNull("price")) {
+                        price = jObj.getJSONArray("offers").getJSONObject(0).getJSONObject("price").getString("fi");
+                    }
                 }
+
 
                 String audience_min_age = jObj.getString("audience_min_age");
                 String audience_max_age = jObj.getString("audience_max_age");
@@ -154,6 +172,7 @@ public class Api { // Singleton class!
                 EventItem event = new EventItem(id, name, price, audience_min_age, audience_max_age, imageUrls, description, short_description, start_time, end_time, place_name);
                 returnData.add(event);
             } catch (JSONException error) {
+                error.printStackTrace();
                 Log.d("JSON Error", error.toString());
             }
 

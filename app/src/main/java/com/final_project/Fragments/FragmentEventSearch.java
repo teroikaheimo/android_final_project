@@ -13,9 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.final_project.Api;
 import com.final_project.R;
-
-import java.util.Calendar;
 
 
 public class FragmentEventSearch extends Fragment implements View.OnClickListener {
@@ -30,6 +29,7 @@ public class FragmentEventSearch extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_event_search, container, false);
+        Api api = Api.getInstance();
         searchEditText = v.findViewById(R.id.search_place_text);
         searchButton = v.findViewById(R.id.search_event_button);
         selectPlaceButton = v.findViewById(R.id.select_place_button);
@@ -53,11 +53,7 @@ public class FragmentEventSearch extends Fragment implements View.OnClickListene
             } else {
                 // No previous state detected...
                 // Set the base value for the startDate picker
-                Calendar c = Calendar.getInstance();
-                int y = c.get(Calendar.YEAR);
-                int m = c.get(Calendar.MONTH) + 1; // Because Calendar month is zero based
-                int d = c.get(Calendar.DAY_OF_MONTH);
-                setSelectedStartDate(d + "." + m + "." + y);
+                setSelectedStartDate(api.getDateTodayStringDisplay());
             }
 
             if (getArguments().getString("TOGGLE_CHOOSE_PLACE") != null && getArguments().getString("TOGGLE_CHOOSE_PLACE").equals("true")) {

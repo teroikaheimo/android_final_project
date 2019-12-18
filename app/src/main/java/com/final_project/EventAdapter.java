@@ -1,10 +1,12 @@
 package com.final_project;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,12 +42,25 @@ public class EventAdapter extends ArrayAdapter<EventItem> {
         TextView startDate = convertView.findViewById(R.id.start_date);
         TextView endDate = convertView.findViewById(R.id.end_date);
         TextView eventPlaceName = convertView.findViewById(R.id.event_place_name);
+        TextView dateSeparator = convertView.findViewById(R.id.event_date_separator);
+        LinearLayout timeLayout = convertView.findViewById(R.id.event_time_layout);
 
         title.setText(item.name);
-        price.setText(item.price);
-        shortDescription.setText(item.short_description);
-        startDate.setText(item.start_time);
-        endDate.setText(item.end_time);
+        price.setText(Html.fromHtml(item.price));
+        shortDescription.setText(Html.fromHtml(item.short_description));
+
+
+        if (item.start_time.length() > 0) {
+            if (item.end_time.length() < 1) {
+                dateSeparator.setVisibility(View.GONE);
+                endDate.setVisibility(View.GONE);
+            } else {
+                endDate.setText(item.end_time);
+            }
+            startDate.setText(item.start_time);
+        } else {
+            timeLayout.setVisibility(View.GONE);
+        }
         eventPlaceName.setText(item.place_name);
 
 

@@ -25,6 +25,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class EventsActivity extends AppCompatActivity implements FragmentEventSearch.FragmentSearchListener, FragmentDatePicker.ListenerDatePicker, FragmentEventList.EventListListener {
     private FragmentEventList fragmentEventList;
     private FragmentEventSearch fragmentEventSearch;
@@ -69,6 +73,9 @@ public class EventsActivity extends AppCompatActivity implements FragmentEventSe
             bundle.putString("SEARCH_TEXT", searchText);
             fragmentEventSearch.setArguments(bundle);
         } else {
+
+            startDateIso = api.getDateTodayStringIso();
+            startDateDisplay = api.getDateTodayStringDisplay();
             Bundle bundle = new Bundle();
             bundle.putString("TOGGLE_CHOOSE_PLACE", "true");
             fragmentEventSearch.setArguments(bundle);
@@ -127,11 +134,21 @@ public class EventsActivity extends AppCompatActivity implements FragmentEventSe
                 requestEventsUpdate();
                 break;
             case 102: // End Date
-                endDateDisplay = dayOfMonth + "." + month + "." + year;
-                endDateIso = year + "-" + month + "-" + dayOfMonth;
-                fragmentEventSearch.setSelectedEndDate(endDateDisplay);
-                api.updateSearchParameter("end", endDateIso);
-                requestEventsUpdate();
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    Date sDate = format.parse(startDateIso);
+                    Date eDate = format.parse(year + "-" + month + "-" + dayOfMonth);
+
+                    if (sDate.before(eDate)) {
+                        endDateDisplay = dayOfMonth + "." + month + "." + year;
+                        endDateIso = year + "-" + month + "-" + dayOfMonth;
+                        fragmentEventSearch.setSelectedEndDate(endDateDisplay);
+                        api.updateSearchParameter("end", endDateIso);
+                        requestEventsUpdate();
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 break;
         }
     }
@@ -203,7 +220,16 @@ public class EventsActivity extends AppCompatActivity implements FragmentEventSe
                                 try {
                                     JSONArray jsonArray = response.getJSONArray("data");
                                     loading.cancel();
-                                    fragmentEventList.addItemListView(api.jsonArrayToEventArray(jsonArray));
+                                    try {
+                                        if (jsonArray.length() > 0) {
+                                            fragmentEventList.addItemListView(api.jsonArrayToEventArray(jsonArray));
+                                        } else {
+                                            fragmentEventList.clearList();
+                                            Toast.makeText(getApplicationContext(), "Ei haku tuloksia!", Toast.LENGTH_LONG).show();
+                                        }
+                                    } catch (Error e) {
+                                        e.printStackTrace();
+                                    }
                                 } catch (JSONException err) {
                                     err.printStackTrace();
                                 }

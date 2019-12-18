@@ -67,6 +67,10 @@ public class FragmentEventList extends ListFragment {
         eventAdapter.notifyDataSetChanged();
     }
 
+    public void clearList() {
+        eventAdapter.clear();
+        eventAdapter.notifyDataSetChanged();
+    }
     @Override
     public void onDetach() {
         super.onDetach();

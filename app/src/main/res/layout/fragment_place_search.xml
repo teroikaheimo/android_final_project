@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/holo_blue_light"
+    android:background="#E97EC97E"
     android:orientation="vertical">
 
     <LinearLayout
@@ -19,10 +19,11 @@
 
         <Button
             android:id="@+id/search_place_button"
+            style="@android:style/Widget.Holo.Button.Small"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="30"
-            android:text="Hae paikkoja" />
+            android:text="Hae" />
     </LinearLayout>
 
 </LinearLayout>
