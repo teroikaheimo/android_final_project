@@ -13,6 +13,7 @@
         android:id="@+id/search_place_list_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@color/listBackgroundColor"
         app:layout_constraintBottom_toTopOf="@+id/search_place_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

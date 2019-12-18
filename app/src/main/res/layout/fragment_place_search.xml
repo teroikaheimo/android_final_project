@@ -2,12 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#E97EC97E"
-    android:orientation="vertical">
+    android:background="@color/searchBackgroundColor">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/invisibleFocusTrap2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:ems="10"
+        android:hint="@string/dummy"
+        android:inputType="text">
+
+        <requestFocus />
+    </EditText>
 
         <EditText
             android:id="@+id/search_place_text"
@@ -15,6 +22,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="70"
             android:ems="10"
+            android:focusable="true"
+            android:hint="@string/hae_paikkoja"
             android:inputType="textPersonName" />
 
         <Button
@@ -23,7 +32,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="30"
-            android:text="Hae" />
-    </LinearLayout>
+            android:text="@string/hae" />
 
 </LinearLayout>

@@ -19,11 +19,9 @@ import com.final_project.R;
 
 public class FragmentEventSearch extends Fragment implements View.OnClickListener {
     private FragmentSearchListener listener;
-    private EditText searchEditText;
-    private TextView chosenPlace, startDate, endDate, clearPlaceButton;
+    private EditText searchEditText, focusTrap;
+    private TextView chosenPlace, startDate, endDate, clearEndDateButton;
     private Button searchButton, selectPlaceButton;
-
-
 
     @Nullable
     @Override
@@ -33,38 +31,50 @@ public class FragmentEventSearch extends Fragment implements View.OnClickListene
         searchEditText = v.findViewById(R.id.search_place_text);
         searchButton = v.findViewById(R.id.search_event_button);
         selectPlaceButton = v.findViewById(R.id.select_place_button);
-        clearPlaceButton = v.findViewById(R.id.button_clear_place);
         chosenPlace = v.findViewById(R.id.chosen_place);
         startDate = v.findViewById(R.id.start_date);
         endDate = v.findViewById(R.id.end_date);
+        clearEndDateButton = v.findViewById(R.id.event_end_date_remove);
+        focusTrap = v.findViewById(R.id.invisibleFocusTrap);
 
         searchButton.setOnClickListener(this);
-        clearPlaceButton.setOnClickListener(this);
         startDate.setOnClickListener(this);
         endDate.setOnClickListener(this);
         selectPlaceButton.setOnClickListener(this);
+        clearEndDateButton.setOnClickListener(this);
+        chosenPlace.setOnClickListener(this);
 
         if (getArguments() != null) {
-            if (getArguments().getString("SELECTED_PLACE_NAME") != null) {
-                chosenPlace.setText(getArguments().getString("SELECTED_PLACE_NAME"));
-                startDate.setText(getArguments().getString("START_DATE_DISPLAY"));
-                endDate.setText(getArguments().getString("END_DATE_DISPLAY"));
-                searchEditText.setText(getArguments().getString("SEARCH_TEXT"));
-            } else {
-                // No previous state detected...
-                // Set the base value for the startDate picker
-                setSelectedStartDate(api.getDateTodayStringDisplay());
+            try {
+                if (getArguments().getString("SELECTED_PLACE_NAME") != null) {
+                    chosenPlace.setText(getArguments().getString("SELECTED_PLACE_NAME"));
+                    startDate.setText(getArguments().getString("START_DATE_DISPLAY"));
+                    endDate.setText(getArguments().getString("END_DATE_DISPLAY"));
+                    searchEditText.setText(getArguments().getString("SEARCH_TEXT"));
+                } else {
+                    // No previous state detected...
+                    // Set the base value for the startDate picker
+                    setSelectedStartDate(api.getDateTodayStringDisplay());
+                }
+
+                if (getArguments().getString("TOGGLE_CHOOSE_PLACE") != null && getArguments().getString("TOGGLE_CHOOSE_PLACE").equals("true")) {
+                    selectPlaceButton.setVisibility(View.VISIBLE);
+                } else {
+                    selectPlaceButton.setVisibility(View.GONE);
+                }
+            } catch (NullPointerException ex) {
+                ex.printStackTrace();
             }
 
-            if (getArguments().getString("TOGGLE_CHOOSE_PLACE") != null && getArguments().getString("TOGGLE_CHOOSE_PLACE").equals("true")) {
-                selectPlaceButton.setVisibility(View.VISIBLE);
-            } else {
-                selectPlaceButton.setVisibility(View.GONE);
-            }
         }
-
-
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        searchEditText.clearFocus();
+
     }
 
     @Override
@@ -77,7 +87,8 @@ public class FragmentEventSearch extends Fragment implements View.OnClickListene
                 CharSequence input = searchEditText.getText();
                 listener.onSearchInputSend(input);
                 break;
-            case R.id.button_clear_place:
+
+            case R.id.chosen_place:
                 chosenPlace.setText("");
                 selectPlaceButton.setVisibility(View.VISIBLE);
                 listener.onClearPlaceClicked();
@@ -88,6 +99,12 @@ public class FragmentEventSearch extends Fragment implements View.OnClickListene
             case R.id.end_date:
                 listener.onEndDateClicked();
                 break;
+            case R.id.event_end_date_remove:
+                clearEndDateButton.setVisibility(View.GONE);
+                endDate.setText("");
+                listener.onEndDateRemoveClicked();
+                break;
+
         }
     }
 
@@ -113,18 +130,17 @@ public class FragmentEventSearch extends Fragment implements View.OnClickListene
     public void setSelectedStartDate(String date) {
         startDate.setText(date);
     }
-
     public void setSelectedEndDate(String date) {
         endDate.setText(date);
+        clearEndDateButton.setVisibility(View.VISIBLE);
     }
     public interface FragmentSearchListener {
         void onSearchInputSend(CharSequence input);
         void onClearPlaceClicked();
-
         void onStartDateClicked();
-
         void onEndDateClicked();
-
         void onSelectPlaceClicked();
+
+        void onEndDateRemoveClicked();
     }
 }

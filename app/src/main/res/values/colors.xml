@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="searchBackgroundColor">#FFCC80</color>
+    <color name="listBackgroundColor">#FFF7ED</color>
+    <color name="eventDetailsBackgroundColor">#FFF7ED</color>
 </resources>

@@ -3,4 +3,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hae">Hae</string>
+    <string name="dummy">placeholder</string>
+    <string name="hae_paikkoja">Hae paikkoja</string>
+    <string name="aloitus_pvm">Aloitus pvm.</string>
+    <string name="lopetus_pvm">Lopetus pvm.</string>
+    <string name="hae_tapahtumista">Hae tapahtumista</string>
 </resources>

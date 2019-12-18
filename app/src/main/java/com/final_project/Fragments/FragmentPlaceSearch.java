@@ -37,8 +37,13 @@ public class FragmentPlaceSearch extends Fragment {
                 listener.onPlaceSearchInputSend(input);
             }
         });
-
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        searchEditText.clearFocus();
     }
 
     @Override

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#E97EC97E"
+    android:background="@color/searchBackgroundColor"
     android:orientation="vertical">
 
     <LinearLayout
@@ -12,9 +12,10 @@
 
         <TextView
             android:id="@+id/chosen_place"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
+            android:background="@color/searchBackgroundColor"
             android:drawableEnd="@drawable/ic_highlight_off_black_24dp"
             android:gravity="center_horizontal|center_vertical"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
@@ -28,57 +29,46 @@
             android:layout_weight="0"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:text="Hae tapahtuma paikkoja"
+            android:text="@string/hae_paikkoja"
             android:textColorLink="#BE0606" />
-
-        <TextView
-            android:id="@+id/button_clear_place"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:drawableStart="@drawable/ic_highlight_off_black_24dp"
-            android:foregroundGravity="center"
-            android:gravity="center" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingEnd="16dp">
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0"
                 android:drawableStart="@drawable/ic_date_range_black_24dp" />
 
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0"
                 android:drawableStart="@drawable/ic_arrow_forward_black_24dp" />
 
             <EditText
                 android:id="@+id/start_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:focusable="false"
-                android:focusableInTouchMode="false" />
+                android:focusableInTouchMode="false"
+                android:hint="@string/aloitus_pvm"
+                android:inputType="date" />
 
         </LinearLayout>
 
@@ -92,48 +82,60 @@
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0"
                 android:drawableStart="@drawable/ic_date_range_black_24dp" />
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0"
                 android:drawableStart="@drawable/ic_arrow_back_black_24dp" />
 
             <EditText
                 android:id="@+id/end_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:focusable="false"
-                android:focusableInTouchMode="false" />
+                android:focusableInTouchMode="false"
+                android:hint="@string/lopetus_pvm"
+                android:inputType="date" />
 
             <TextView
-                android:id="@+id/event_end_date_remove_button"
+                android:id="@+id/event_end_date_remove"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0"
                 android:drawableStart="@drawable/ic_highlight_off_black_24dp"
                 android:foregroundGravity="center"
-                android:gravity="center" />
+                android:gravity="center"
+                android:visibility="gone" />
         </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp">
+
+        <EditText
+            android:id="@+id/invisibleFocusTrap"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:ems="10"
+            android:hint="@string/dummy"
+            android:inputType="text">
+
+            <requestFocus />
+        </EditText>
 
         <EditText
             android:id="@+id/search_place_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="70"
-            android:ems="10"
-            android:inputType="textPersonName"
+            android:hint="@string/hae_tapahtumista"
             android:textColorHighlight="#344E34"
+            android:inputType="text"
             android:textColorLink="#4CAF50" />
 
         <Button
@@ -144,7 +146,7 @@
             android:layout_weight="30"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:text="Hae" />
+            android:text="@string/hae" />
     </LinearLayout>
 
 </LinearLayout>

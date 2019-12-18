@@ -89,6 +89,7 @@ public class EventsActivity extends AppCompatActivity implements FragmentEventSe
         requestEventsUpdate();
     }
 
+
     private void updateState() {
         api.updateSearchParameter("location", selectedPlaceId);
         api.updateSearchParameter("start", startDateIso);
@@ -139,7 +140,7 @@ public class EventsActivity extends AppCompatActivity implements FragmentEventSe
                     Date sDate = format.parse(startDateIso);
                     Date eDate = format.parse(year + "-" + month + "-" + dayOfMonth);
 
-                    if (sDate.before(eDate)) {
+                    if (sDate != null && sDate.before(eDate)) {
                         endDateDisplay = dayOfMonth + "." + month + "." + year;
                         endDateIso = year + "-" + month + "-" + dayOfMonth;
                         fragmentEventSearch.setSelectedEndDate(endDateDisplay);
@@ -186,6 +187,14 @@ public class EventsActivity extends AppCompatActivity implements FragmentEventSe
         b.putInt("PICKER_ID", 102);
         picker.setArguments(b);
         picker.show(getSupportFragmentManager(), "endDatePicker");
+    }
+
+    @Override
+    public void onEndDateRemoveClicked() {
+        endDateDisplay = "";
+        endDateIso = "";
+        api.updateSearchParameter("end", "");
+        requestEventsUpdate();
     }
 
     public Bundle getStateBundle() {
@@ -245,10 +254,8 @@ public class EventsActivity extends AppCompatActivity implements FragmentEventSe
 
     private void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        try {
+        if (imm != null) {
             imm.hideSoftInputFromWindow(mainLayout.getWindowToken(), 0);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
         }
     }
 }
