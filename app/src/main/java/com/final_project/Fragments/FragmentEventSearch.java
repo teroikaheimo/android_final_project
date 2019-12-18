@@ -20,8 +20,8 @@ import com.final_project.R;
 public class FragmentEventSearch extends Fragment implements View.OnClickListener {
     private FragmentSearchListener listener;
     private EditText searchEditText;
-    private TextView chosenPlace, startDate, endDate;
-    private Button searchButton, clearPlaceButton, selectPlaceButton;
+    private TextView chosenPlace, startDate, endDate, clearPlaceButton;
+    private Button searchButton, selectPlaceButton;
 
 
 

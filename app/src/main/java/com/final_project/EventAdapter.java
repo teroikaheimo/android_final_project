@@ -44,9 +44,15 @@ public class EventAdapter extends ArrayAdapter<EventItem> {
         TextView eventPlaceName = convertView.findViewById(R.id.event_place_name);
         TextView dateSeparator = convertView.findViewById(R.id.event_date_separator);
         LinearLayout timeLayout = convertView.findViewById(R.id.event_time_layout);
+        LinearLayout priceLayout = convertView.findViewById(R.id.event_price_layout);
 
         title.setText(item.name);
-        price.setText(Html.fromHtml(item.price));
+
+        if (item.price.length() > 0) {
+            price.setText(Html.fromHtml(item.price));
+        } else {
+            priceLayout.setVisibility(View.GONE);
+        }
         shortDescription.setText(Html.fromHtml(item.short_description));
 
 

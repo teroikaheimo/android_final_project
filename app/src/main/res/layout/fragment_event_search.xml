@@ -15,6 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_weight="1"
+            android:drawableEnd="@drawable/ic_highlight_off_black_24dp"
             android:gravity="center_horizontal|center_vertical"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -30,15 +31,15 @@
             android:text="Hae tapahtuma paikkoja"
             android:textColorLink="#BE0606" />
 
-        <Button
+        <TextView
             android:id="@+id/button_clear_place"
-            style="@android:style/Widget.Holo.Button.Small"
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_gravity="end"
+            android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:text="X"
-            android:textColorLink="#BE0606" />
+            android:drawableStart="@drawable/ic_highlight_off_black_24dp"
+            android:foregroundGravity="center"
+            android:gravity="center" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -78,6 +79,7 @@
                 android:layout_weight="1"
                 android:focusable="false"
                 android:focusableInTouchMode="false" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -107,6 +109,15 @@
                 android:layout_weight="1"
                 android:focusable="false"
                 android:focusableInTouchMode="false" />
+
+            <TextView
+                android:id="@+id/event_end_date_remove_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:drawableStart="@drawable/ic_highlight_off_black_24dp"
+                android:foregroundGravity="center"
+                android:gravity="center" />
         </LinearLayout>
 
     </LinearLayout>
