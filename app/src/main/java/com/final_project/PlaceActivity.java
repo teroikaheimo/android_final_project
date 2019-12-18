@@ -29,7 +29,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements FragmentPlaceList.FragmentSearchPlaceListener, FragmentPlaceSearch.FragmentSearchPlaceListener {
+public class PlaceActivity extends AppCompatActivity implements FragmentPlaceList.FragmentSearchPlaceListener, FragmentPlaceSearch.FragmentSearchPlaceListener {
     ConstraintLayout mainLayout;
     ConnectivityManager connMan;
     private FragmentPlaceList fragmentPlaceList;
@@ -68,12 +68,14 @@ public class MainActivity extends AppCompatActivity implements FragmentPlaceList
     @Override
     public void onPlaceSelected(PlaceItem item) {
         Bundle oldBundle = getIntent().getExtras();
-        selectedPlace = item;
-        Intent intent = new Intent(MainActivity.this, EventsActivity.class);
-        oldBundle.putString("SELECTED_PLACE_ID", item.getId());
-        oldBundle.putString("SELECTED_PLACE_NAME", item.getName());
-        intent.putExtras(oldBundle);
-        startActivity(intent);
+        if (oldBundle != null) {
+            selectedPlace = item;
+            Intent intent = new Intent(PlaceActivity.this, EventsActivity.class);
+            oldBundle.putString("SELECTED_PLACE_ID", item.getId());
+            oldBundle.putString("SELECTED_PLACE_NAME", item.getName());
+            intent.putExtras(oldBundle);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -131,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements FragmentPlaceList
         }
         String url = api.getPlacesSearchUrl() + searchTerms;
 
-        Log.d(" ** URL ***", url);
+        Log.d("Places URL", url);
         requestQueue.add(
                 new JsonObjectRequest
                         (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -141,14 +143,20 @@ public class MainActivity extends AppCompatActivity implements FragmentPlaceList
                                 try {
                                     ArrayList<PlaceItem> responceData = new ArrayList<>();
                                     JSONArray jsonArray = response.getJSONArray("data");
-                                    for (int i = 0; i < jsonArray.length(); i++) {
-                                        String name = jsonArray.getJSONObject(i).getJSONObject("name").getString("fi");
-                                        String id = jsonArray.getJSONObject(i).getString("id");
-                                        PlaceItem place = new PlaceItem(name, id);
-                                        responceData.add(place);
+                                    if (jsonArray.length() > 0) {
+                                        for (int i = 0; i < jsonArray.length(); i++) {
+                                            String name = jsonArray.getJSONObject(i).getJSONObject("name").getString("fi");
+                                            String id = jsonArray.getJSONObject(i).getString("id");
+                                            PlaceItem place = new PlaceItem(name, id);
+                                            responceData.add(place);
+                                        }
+                                        loading.cancel();
+                                        fragmentPlaceList.addItemListView(responceData);
+                                    } else {
+                                        fragmentPlaceList.clearList();
+                                        Toast.makeText(getApplicationContext(), "Ei hakutuloksia!", Toast.LENGTH_LONG).show();
                                     }
-                                    loading.cancel();
-                                    fragmentPlaceList.addItemListView(responceData);
+
                                 } catch (JSONException err) {
                                     err.printStackTrace();
                                 }
@@ -156,8 +164,7 @@ public class MainActivity extends AppCompatActivity implements FragmentPlaceList
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(getApplicationContext(), "Query failed...", Toast.LENGTH_LONG).show();
-                                Log.d(" **Query failed**", error.toString());
+                                Toast.makeText(getApplicationContext(), "Kysely epäonnistui!", Toast.LENGTH_LONG).show();
                             }
                         }).setRetryPolicy(new DefaultRetryPolicy(8000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)));
     }
@@ -165,10 +172,8 @@ public class MainActivity extends AppCompatActivity implements FragmentPlaceList
 
     private void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        try {
+        if (imm != null) {
             imm.hideSoftInputFromWindow(mainLayout.getWindowToken(), 0);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
         }
     }
 
@@ -183,8 +188,11 @@ public class MainActivity extends AppCompatActivity implements FragmentPlaceList
         super.onBackPressed();
         Intent intent = new Intent();
         Bundle b = getIntent().getExtras();
-        intent.putExtras(b);
+        if (b != null) {
+            intent.putExtras(b);
+        }
         setResult(Activity.RESULT_OK, intent);
+
     }
 
 }

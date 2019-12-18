@@ -173,7 +173,6 @@ public class Api { // Singleton class!
                 returnData.add(event);
             } catch (JSONException error) {
                 error.printStackTrace();
-                Log.d("JSON Error", error.toString());
             }
 
         }

@@ -115,7 +115,6 @@ public class EventsActivity extends AppCompatActivity implements FragmentEventSe
         b.putString("EVENT_ITEM_MIN_AGE", item.audience_min_age);
         b.putString("EVENT_ITEM_MAX_AGE", item.audience_max_age);
         String itemUrls = item.image_urls.toString();
-        Log.d("imageURLS", itemUrls);
         b.putString("EVENT_ITEM_IMAGE_URLS", itemUrls);
         b.putString("EVENT_ITEM_DESCRIPTION", item.description);
         b.putString("EVENT_ITEM_START_TIME", item.start_time);
@@ -211,13 +210,13 @@ public class EventsActivity extends AppCompatActivity implements FragmentEventSe
 
     @Override
     public void onSelectPlaceClicked() {
-        Intent intent = new Intent(EventsActivity.this, MainActivity.class);
+        Intent intent = new Intent(EventsActivity.this, PlaceActivity.class);
         intent.putExtras(getStateBundle());
         startActivity(intent);
     }
 
     private void requestEventsUpdate() {
-        final Toast loading = Toast.makeText(getApplicationContext(), "Loading data..", Toast.LENGTH_LONG);
+        final Toast loading = Toast.makeText(getApplicationContext(), "Ladataan...", Toast.LENGTH_LONG);
         loading.show();
         Log.d("EVENTS URL", api.getEventsUrl());
         requestQueue.add(
@@ -234,7 +233,7 @@ public class EventsActivity extends AppCompatActivity implements FragmentEventSe
                                             fragmentEventList.addItemListView(api.jsonArrayToEventArray(jsonArray));
                                         } else {
                                             fragmentEventList.clearList();
-                                            Toast.makeText(getApplicationContext(), "Ei haku tuloksia!", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), "Ei hakutuloksia!", Toast.LENGTH_LONG).show();
                                         }
                                     } catch (Error e) {
                                         e.printStackTrace();
@@ -246,8 +245,8 @@ public class EventsActivity extends AppCompatActivity implements FragmentEventSe
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(getApplicationContext(), "Query failed...", Toast.LENGTH_LONG).show();
-                                Log.d(" **Query failed**", error.toString());
+                                Toast.makeText(getApplicationContext(), "Kysely epäonnistui!", Toast.LENGTH_LONG).show();
+                                error.printStackTrace();
                             }
                         }).setRetryPolicy(new DefaultRetryPolicy(8000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)));
     }

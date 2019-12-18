@@ -37,8 +37,10 @@ public class FragmentPlaceList extends ListFragment {
         super.onActivityCreated(savedInstanceState);
         context = getActivity();
         items = new ArrayList<>();
-        placeAdapter = new PlaceAdapter(getActivity(), items);
-        setListAdapter(placeAdapter);
+        if (getActivity() != null) {
+            placeAdapter = new PlaceAdapter(getActivity(), items);
+            setListAdapter(placeAdapter);
+        }
     }
 
     @Override
@@ -51,6 +53,11 @@ public class FragmentPlaceList extends ListFragment {
     public void addItemListView(ArrayList<PlaceItem> list) {
         placeAdapter.clear();
         placeAdapter.addAll(list);
+        placeAdapter.notifyDataSetChanged();
+    }
+
+    public void clearList() {
+        placeAdapter.clear();
         placeAdapter.notifyDataSetChanged();
     }
 
