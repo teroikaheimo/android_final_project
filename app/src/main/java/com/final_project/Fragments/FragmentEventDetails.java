@@ -1,6 +1,6 @@
 package com.final_project.Fragments;
 
-import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Html;
@@ -24,16 +24,17 @@ import com.android.volley.toolbox.Volley;
 import com.final_project.R;
 
 public class FragmentEventDetails extends Fragment {
-    private ImageView imageView;
     private TextView eventName, eventLocation, eventTime, eventPrice, eventDescription;
     private String eStartTime, eEndTime, eImageUrls;
-    private OnFragmentInteractionListener mListener;
     private RequestQueue requestQueue;
     private ConstraintLayout imageLayout;
-    private LinearLayout timeLayout;
+    private LinearLayout timeLayout, imagesContainer;
 
     public FragmentEventDetails() {
-        // Required empty public constructor
+    }
+
+    public static int getScreenWidth() {
+        return Resources.getSystem().getDisplayMetrics().widthPixels;
     }
 
     @Override
@@ -41,9 +42,6 @@ public class FragmentEventDetails extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_event_details, container, false);
         requestQueue = Volley.newRequestQueue(getActivity());
-
-
-        imageView = v.findViewById(R.id.event_details_image);
         eventName = v.findViewById(R.id.event_detail_name);
         eventLocation = v.findViewById(R.id.event_detail_location);
         eventTime = v.findViewById(R.id.event_detail_time);
@@ -51,6 +49,7 @@ public class FragmentEventDetails extends Fragment {
         eventPrice = v.findViewById(R.id.event_detail_price);
         eventDescription = v.findViewById(R.id.event_detail_description);
         imageLayout = v.findViewById(R.id.event_details_image_layout);
+        imagesContainer = v.findViewById(R.id.event_detail_images_container);
 
         if (getArguments() != null) {
             Bundle b = getArguments();
@@ -60,8 +59,14 @@ public class FragmentEventDetails extends Fragment {
 
             eImageUrls = b.getString("EVENT_ITEM_IMAGE_URLS");
             Log.d("the IMAGE URL", eImageUrls.substring(1, eImageUrls.length() - 1));
-            if (eImageUrls.length() > 5) {
-                getEventImage(eImageUrls.substring(1, eImageUrls.length() - 1));
+            if (eImageUrls.length() > 10) {
+                // TODO any comma separated values in the URL WILL brake this. It is not a problem for a project with these requirements(single place filter etc.). But if developed further it might become one.
+                String allUrls = eImageUrls.substring(1, eImageUrls.length() - 1);
+                String[] urls = allUrls.split(",");
+                for (String url : urls) {
+                    Log.d(" FETCHING ULR", url);
+                    getEventImage(url);
+                }
             } else {
                 imageLayout.setVisibility(View.GONE);
             }
@@ -89,7 +94,13 @@ public class FragmentEventDetails extends Fragment {
 
     private void getEventImage(String url) {
         requestQueue.add(imageRequestBuilder(url));
+    }
 
+    private void addImageToScroll(Bitmap imgBitmap) {
+        ImageView img = new ImageView(getActivity());
+        img.setLayoutParams(new LinearLayout.LayoutParams(getScreenWidth(), LinearLayout.LayoutParams.MATCH_PARENT));
+        img.setImageBitmap(imgBitmap);
+        imagesContainer.addView(img);
     }
 
     private ImageRequest imageRequestBuilder(final String url) {
@@ -100,7 +111,7 @@ public class FragmentEventDetails extends Fragment {
                     public void onResponse(Bitmap bitmap) {
                         if (bitmap != null) {
                             try {
-                                imageView.setImageBitmap(bitmap);
+                                addImageToScroll(bitmap);
                             } catch (Error e) {
                                 e.printStackTrace();
                             }
@@ -113,26 +124,5 @@ public class FragmentEventDetails extends Fragment {
                         Toast.makeText(getActivity(), "Fetching image failed.", Toast.LENGTH_LONG).show();
                     }
                 });
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnFragmentInteractionListener {
-        void onViewAllImagesClick();
     }
 }
